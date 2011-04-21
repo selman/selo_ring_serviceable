@@ -15,3 +15,15 @@ desc "run watchr"
 task :watchr do
   system "watchr specs.watchr"
 end
+
+begin
+  require 'flog_task'
+  FlogTask.new(:flog, 445)
+rescue LoadError
+end
+
+begin
+  require 'flay_task'
+  FlayTask.new(:flay, 445)
+rescue LoadError
+end

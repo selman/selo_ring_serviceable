@@ -29,10 +29,6 @@ module SeloRing
     attr_reader :check_every, :identifier, :service_name,
     :tuple, :renewer, :ring_finger #nodoc
 
-    if $testing
-      attr_writer :ring_server, :identifier, :service_name, :tuple, :renewer
-    end
-
     ##
     # Starts a loop that checks for a registration tuple every #check_every
     # seconds.
@@ -67,10 +63,15 @@ module SeloRing
     # RingServer can't be found or contacted, returns false.
 
     def registered?
-      serviced = self.public_methods(false).join("#")
-      @identifier ||= [Socket.gethostname.downcase, Process.pid, serviced].compact.join '_'   
+      @identifier ||=
+        [Socket.gethostname.downcase,
+         Process.pid,
+         self.public_methods(false).join('#')].compact.join('_')
       @service_name ||= self.class.to_s.to_sym
-      registrations = self.ring_server.read_all([:name, self.service_name, nil, self.identifier])
+      registrations = self.ring_server.read_all([:name,
+                                                 self.service_name,
+                                                 nil,
+                                                 self.identifier])
       registrations.any? { |registration| registration[2] == self }
     rescue DRb::DRbConnError
       @ring_server = nil

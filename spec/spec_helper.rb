@@ -1,10 +1,17 @@
-require 'simplecov'
-SimpleCov.start
+require 'bundler/setup'
 
-$testing = true
+begin
+  require 'simplecov'
+  SimpleCov.start
+rescue LoadError
+end
 
 require 'minitest/autorun'
 require 'selo_ring/serviceable'
+
+module SeloRing::Serviceable
+  attr_writer :ring_server, :tuple, :renewer
+end
 
 DRb.start_service
 

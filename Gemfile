@@ -1,4 +1,11 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in selo_ring.gemspec
 gemspec
+
+group :code_quality do
+  gem "simplecov", :platform => :ruby_19
+  gem "rev" unless RUBY_PLATFORM =~ /(mswin|darwin)/
+  gem "watchr"
+  gem "flog"
+  gem "flay"
+end

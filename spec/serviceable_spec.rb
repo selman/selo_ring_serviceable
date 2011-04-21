@@ -5,9 +5,10 @@ describe SeloRing::Serviceable do
     @myservice = MyService.new
     @ring_server = MiniTest::Mock.new
     @myservice.ring_server = @ring_server
-    
-    serviced = @myservice.public_methods(false).join("#")
-    @ident = [Socket.gethostname.downcase, Process.pid, serviced].compact.join '_'
+    @ident =
+      [Socket.gethostname.downcase,
+       Process.pid,
+       @myservice.public_methods(false).join('#')].compact.join('_')
   end
 
   it "should register service" do
@@ -38,7 +39,7 @@ describe SeloRing::Serviceable do
     end   
   end
 
-  it "should raise DRb::DRbConnError" do
+  it "should rescue DRb::DRbConnError" do
     def @ring_server.read_all(*args); raise DRb::DRbConnError end
     @myservice.registered?.must_equal false
   end

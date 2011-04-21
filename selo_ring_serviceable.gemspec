@@ -13,9 +13,6 @@ Gem::Specification.new do |s|
   s.description = %q{Abstrack service module for Rinda::RingServer}
 
   s.add_development_dependency("minitest")
-  s.add_development_dependency("simplecov")
-  s.add_development_dependency("watchr")
-  s.add_development_dependency("rev")
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
