@@ -1,14 +1,15 @@
 require 'spec_helper'
+require 'selo_ring/serviceable'
 
 describe SeloRing::Serviceable do
   before do
-    @myservice = MyService.new
+    @myservice = MyService.new(:name => 'Test')
     @ring_server = MiniTest::Mock.new
     @myservice.ring_server = @ring_server
     @ident =
       [Socket.gethostname.downcase,
        Process.pid,
-       @myservice.public_methods(false).join('#')].compact.join('_')
+       'Test'].compact.join('_')
   end
 
   it "should register service" do
@@ -50,7 +51,8 @@ describe SeloRing::Serviceable do
     yield(@myservice) if block_given?
 
     @myservice.identifier.must_equal @ident
-    @myservice.service_name.must_equal :MyService
+    @myservice.service.must_equal :MyService
     @ring_server.verify
   end
+
 end

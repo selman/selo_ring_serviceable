@@ -7,16 +7,16 @@ rescue LoadError
 end
 
 require 'minitest/autorun'
-require 'selo_ring/serviceable'
+require 'selo_ring'
 
-module SeloRing::Serviceable
-  attr_writer :ring_server, :tuple, :renewer
+module SeloRing
+  class Serviceable
+    attr_writer :ring_server, :tuple, :renewer
+    attr_reader :identifier, :service
+  end
 end
 
-DRb.start_service
-
-class MyService
-  include SeloRing::Serviceable
+class MyService < SeloRing::Serviceable
 
   def m1
     "test1"
