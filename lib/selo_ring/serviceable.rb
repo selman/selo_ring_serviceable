@@ -77,6 +77,13 @@ module SeloRing
     end
 
     ##
+    # Stops service
+
+    def self.stop
+      DRb.stop_service
+    end
+
+    ##
     # Registers this service with the selected Rinda::RingServer.
 
     def register
